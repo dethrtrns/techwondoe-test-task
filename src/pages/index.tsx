@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import {Inter} from 'next/font/google';
 import React from 'react';
+import CompanySettings from '../components/CompanySettings';
 
 const inter = Inter({subsets: ['latin']});
 
