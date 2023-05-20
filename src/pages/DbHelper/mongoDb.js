@@ -11,34 +11,10 @@ mongoose
 
 // Define the Schema for your model(collection in layman's terms(mongoDb's terms)!!!) like below--->
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  age: {
-    type: String,
-    required: true,
-  },
-  sex: {
-    type: String,
-    required: true,
-  },
-  mobile: String,
-  idType: String,
-  govtId: String,
-  gaurdian: String,
+  name: String,
+  avatar: String,
   email: String,
-  emergencyContact: String,
-  address: String,
-  state: String,
-  city: String,
-  country: String,
-  pincode: String,
-  occupation: String,
-  religion: String,
-  maritalStatus: String,
-  bloodGroup: String,
-  nationality: String,
+  role: String,
   date: { type: Date, default: Date.now }, //<--note that this value if not provided, will automatically be added by mongodb.
 }); //this is basically like a blueprint of how each document of your collection should look like.
 
@@ -76,14 +52,10 @@ export const getUsers = async () => {
   try {
     const Users = await User.find().select({
       name: 1,
-      age: 1,
-      sex: 1,
-      mobile: 1,
-      address: 1,
-      idType: 1,
-      govtId: 1,
-      gaurdian: 1,
-      nationality: 1,
+      avatar: 1,
+      email: 1,
+      role: 1,
+      date: 1,
       _id: 1,
     });
     // .sort({ date: 1 })
