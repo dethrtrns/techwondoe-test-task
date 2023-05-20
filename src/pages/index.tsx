@@ -1,7 +1,10 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import Image from 'next/image';
+import {Inter} from 'next/font/google';
+import React from 'react';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({subsets: ['latin']});
 
 export default function Home() {
   return (
@@ -10,5 +13,5 @@ export default function Home() {
     >
       <h1>hi</h1>
     </main>
-  )
+  );
 }
