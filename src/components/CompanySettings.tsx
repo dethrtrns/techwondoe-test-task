@@ -1,7 +1,8 @@
+import {Container} from '@mantine/core';
 import React from 'react';
 
 const CompanySettings = () => {
-  return <div>CompanySettings</div>;
+  return <Container>CompanySettings</Container>;
 };
 
 export default CompanySettings;
