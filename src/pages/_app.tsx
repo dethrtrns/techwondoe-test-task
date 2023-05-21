@@ -14,6 +14,10 @@ const App: React.FC<AppProps> = ({Component: PageComponent, pageProps}) => {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link
+          rel="shortcut icon"
+          href="https://www.techwondoe.com/_next/image/?url=%2Fimages%2FClients%2F12.png&w=1920&q=75"
+        ></link>
       </Head>
 
       <MantineProvider
