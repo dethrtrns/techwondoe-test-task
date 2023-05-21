@@ -41,7 +41,7 @@ const CompanySettings = () => {
       p="lg"
       // bg="red"
     >
-      <Title order={1}>CompanySettings</Title>
+      <Title order={1}>Company Settings</Title>
       <Tabs mt={25} color="gray" variant="pills" defaultValue="users">
         <Tabs.List>
           <Tabs.Tab value="general">General</Tabs.Tab>
