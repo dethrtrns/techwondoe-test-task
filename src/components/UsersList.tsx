@@ -230,9 +230,9 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
   ));
 
   return (
-    <ScrollArea pt={30}>
+    <ScrollArea p={'xl'} className="rounded shadow-xl" pt={30}>
       <Flex>
-        <Group>
+        <Group className="flex flex-col justify-start items-start">
           <Group>
             <Title order={4}>Users</Title>
             <Badge color="green"> 48 users</Badge>

@@ -11,9 +11,9 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "npm.cmd run compile",
-    "pretest": "npm.cmd run compile",
-    "posttest": "npm.cmd run lint"
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -34,11 +34,17 @@
     "postcss": "^8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwindcss": "^3.3.2",
-    "typescript": "5.0.4"
+    "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
     "gts": "^3.1.1",
     "typescript": "~4.7.0"
+  },
+  "vercel": {
+    "build": {
+      "env": {
+        "NODE_VERSION": "14"
+      }
+    }
   }
 }
