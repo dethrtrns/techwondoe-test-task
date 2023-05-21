@@ -9,7 +9,7 @@ const App: React.FC<AppProps> = ({Component: PageComponent, pageProps}) => {
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>Techwondoe</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"

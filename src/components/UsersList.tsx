@@ -235,7 +235,7 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
         <Group className="flex flex-col justify-between items-start">
           <Group>
             <Title order={4}>Users</Title>
-            <Badge color="green"> 48 users</Badge>
+            <Badge color="green"> {data.length} users</Badge>
           </Group>
           <Text>
             Manage your team members and their account permissions here.
