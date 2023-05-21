@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import UsersList from './UsersList';
 
 interface User {
-  id: number;
+  _id: number;
   name: string;
   avatar: string;
   email: string;
@@ -15,7 +15,7 @@ const CompanySettings = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  console.log(usersData);
   useEffect(() => {
     const fetchData = async () => {
       try {

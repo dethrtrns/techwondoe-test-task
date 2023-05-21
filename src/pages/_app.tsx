@@ -3,6 +3,7 @@ import Head from 'next/head';
 import {MantineProvider} from '@mantine/core';
 import '../styles/globals.css';
 import React from 'react';
+import {Notifications} from '@mantine/notifications';
 
 const App: React.FC<AppProps> = ({Component: PageComponent, pageProps}) => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC<AppProps> = ({Component: PageComponent, pageProps}) => {
           colorScheme: 'light',
         }}
       >
+        <Notifications />
         <PageComponent {...pageProps} />
       </MantineProvider>
     </>

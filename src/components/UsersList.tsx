@@ -17,17 +17,25 @@ import {
   Notification,
 } from '@mantine/core';
 import {useForm, joiResolver} from '@mantine/form';
+import {notifications} from '@mantine/notifications';
 import Joi from 'joi';
 
 import {IconPencil, IconTrash} from '@tabler/icons-react';
 
 interface User {
-  id: number;
+  _id: number;
   name: string;
   avatar: string;
   email: string;
   role: string;
   date: Date;
+}
+
+interface FormValues {
+  name: string;
+  email: string;
+  role: string;
+  avatar: string;
 }
 
 interface UsersTableProps {
@@ -39,6 +47,12 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
   const itemsPerPage = 5; // Number of items to display per page
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [userIdToUpdate, setUserIdToUpdate] = React.useState<number | null>(
+    null
+  );
+  const [userIdToDelete, setUserIdToDelete] = React.useState<number | null>(
+    null
+  );
 
   const defaultAvatarUrl = (name: string) =>
     `https://robohash.org/${name}.png?size=200x200`;
@@ -64,7 +78,8 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     validate: joiResolver(schema),
   });
 
-  const submitFormHandler = async (values: any) => {
+  //add user handler
+  const submitFormHandler = async (values: FormValues) => {
     if (values.avatar === '') {
       values.avatar = defaultAvatarUrl(values.name);
     }
@@ -89,10 +104,77 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     }
   };
 
+  // Update and Delete handlers
+  const handleDeleteUser = async (_id: number) => {
+    try {
+      const response = await fetch(`api/delete?id=${_id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+
+      // Close modal and clear error if delete was successful
+      setUserIdToDelete(null);
+      setError(null);
+
+      // Notify successful deletion
+      notifications.show({
+        title: 'Success!',
+        message: 'User deleted successfully',
+        color: 'green',
+      });
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleUpdateUser = async (_id: number, values: Partial<User>) => {
+    try {
+      const userToUpdate = data.find(user => user._id === _id);
+      if (!userToUpdate) {
+        throw new Error('User not found');
+      }
+
+      const updatedUserData = {
+        ...userToUpdate,
+        name: values.name || userToUpdate.name,
+        role: values.role || userToUpdate.role,
+      };
+
+      console.log(updatedUserData);
+
+      const response = await fetch('api/update', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(updatedUserData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update user');
+      }
+
+      // Close modal and clear error if update was successful
+      setUserIdToUpdate(null);
+      setError(null);
+
+      // Notify successful update
+      notifications.show({
+        title: 'Success!',
+        message: 'User updated successfully',
+        color: 'green',
+      });
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentPageData = data.slice(startIndex, endIndex);
 
+  // console.log(currentPageData);
   const rows = currentPageData.map(item => (
     <tr key={item.name}>
       <td>
@@ -128,10 +210,18 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
       <td>{Math.floor(Math.random() * 6 + 5)} days ago</td>
       <td>
         <Flex>
-          <ActionIcon>
+          <ActionIcon onClick={() => setUserIdToDelete(item._id)}>
             <IconTrash size="1.125rem" />
           </ActionIcon>
-          <ActionIcon>
+          <ActionIcon
+            onClick={() => {
+              const user = data.find(user => user._id === item._id);
+              if (user) {
+                form.setValues({name: user.name, role: user.role});
+                setUserIdToUpdate(user._id);
+              }
+            }}
+          >
             <IconPencil size="1.125rem" />
           </ActionIcon>
         </Flex>
@@ -231,6 +321,91 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
           )}
         </form>
       </Modal>
+      {userIdToDelete && (
+        <Modal
+          opened={true}
+          onClose={() => setUserIdToDelete(null)}
+          title="Delete user"
+          size="md"
+        >
+          <Text>Are you sure you want to delete this user?</Text>
+          <Flex p={15} justify="flex-end">
+            <Button
+              color="red"
+              variant="light"
+              onClick={() => setUserIdToDelete(null)}
+            >
+              Cancel
+            </Button>
+            <Button
+              ml={9}
+              color="indigo"
+              variant="outline"
+              onClick={() => handleDeleteUser(userIdToDelete)}
+            >
+              Confirm
+            </Button>
+          </Flex>
+          {error && (
+            <Notification mt={15} color="red">
+              {error}
+            </Notification>
+          )}
+        </Modal>
+      )}
+      {userIdToUpdate && (
+        <Modal
+          opened={true}
+          onClose={() => {
+            setUserIdToUpdate(null);
+            form.reset(); // Reset form when modal is closed
+          }}
+          title={`Update user: ${
+            data.find(user => user._id === userIdToUpdate)?.email
+          }`} // Use email as modal title
+          size="md"
+        >
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              handleUpdateUser(userIdToUpdate, form.values);
+            }}
+          >
+            <TextInput
+              label="Name"
+              placeholder="Enter Name"
+              required
+              error={form.errors.name}
+              {...form.getInputProps('name')}
+            />
+            <Select
+              data={['Admin', 'Sales Leader', 'Sales Rep']}
+              label="Role"
+              placeholder="Select Role"
+              required
+              error={form.errors.role}
+              {...form.getInputProps('role')}
+            />
+            <Flex p={15} justify="flex-end">
+              <Button
+                color="red"
+                variant="light"
+                onClick={() => setUserIdToUpdate(null)}
+              >
+                Cancel
+              </Button>
+              <Button ml={9} color="indigo" variant="outline" type="submit">
+                Submit
+              </Button>
+            </Flex>
+            {error && (
+              <Notification mt={15} color="red">
+                {error}
+              </Notification>
+            )}
+          </form>
+        </Modal>
+      )}
     </ScrollArea>
   );
 };

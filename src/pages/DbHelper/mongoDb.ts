@@ -71,7 +71,7 @@ export const updateUser = async (
     const result = await User.findByIdAndUpdate(
       id,
       {
-        ...data,
+        $set: {...data},
       },
       {new: true}
     ); // Add new: true to get the updated document back
