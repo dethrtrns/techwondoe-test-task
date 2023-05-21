@@ -4,9 +4,7 @@ import {MantineProvider} from '@mantine/core';
 import '../styles/globals.css';
 import React from 'react';
 
-export default function App(props: AppProps) {
-  const {Component, pageProps} = props;
-
+const App: React.FC<AppProps> = ({Component: PageComponent, pageProps}) => {
   return (
     <>
       <Head>
@@ -25,8 +23,10 @@ export default function App(props: AppProps) {
           colorScheme: 'light',
         }}
       >
-        <Component {...pageProps} />
+        <PageComponent {...pageProps} />
       </MantineProvider>
     </>
   );
-}
+};
+
+export default App;
