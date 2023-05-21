@@ -143,7 +143,7 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
         role: values.role || userToUpdate.role,
       };
 
-      console.log(updatedUserData);
+      // console.log(updatedUserData);
 
       const response = await fetch('api/update', {
         method: 'PUT',
