@@ -1,38 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Techwondoe Test Task
 
-## Getting Started
+This project is a test task for Techwondoe.
 
-First, run the development server:
+## Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+The UI is a user settings page with tabs to go to different settings.(currently just the user tab has content and is working rest of them are just placeholders).
+In the users tab you can view the current users in a table and delete or update them.
+you can also add a new User with the add user button.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+To install and run this project locally, follow these steps:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. Clone the repository: `git clone https://github.com/your-username/techwondoe-test-task.git`
+2. Change into the project directory: `cd techwondoe-test-task`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm run dev`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the project for production.
+- `npm start`: Starts the production server.
+- `npm run lint`: Runs the linting process.
+- `npm run clean`: Cleans the project build artifacts.
+- `npm run compile`: Compiles TypeScript files.
+- `npm run fix`: Fixes linting issues automatically.
+- `npm run prepare`: Runs compilation before the package is published.
+- `npm run pretest`: Runs compilation before running tests.
+- `npm run posttest`: Runs linting after running tests.
 
-## Learn More
+## Dependencies
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js](https://nextjs.org) - The React framework for production.
+- [React](https://reactjs.org) - A JavaScript library for building user interfaces.
+- [Tailwind CSS](https://tailwindcss.com) - A utility-first CSS framework.
+- [Mantine](https://mantine.dev) - A set of React components and hooks.
+- [Joi](https://joi.dev) - A powerful schema description language and data validator for JavaScript.
+- [Mongoose](https://mongoosejs.com) - An elegant MongoDB object modeling for Node.js.
+- [Emotion](https://emotion.sh) - A CSS-in-JS library for styling React components.
+- [Tabler Icons](https://tablericons.com) - A set of free and open-source icons for web projects.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
