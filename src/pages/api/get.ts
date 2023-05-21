@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {getUsers} from '../DbHelper/mongoDb';
+import {getUsers} from '../../DbHelper/mongoDb';
 
 export default async function getUsersHandler(
   req: NextApiRequest,

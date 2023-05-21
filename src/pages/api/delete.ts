@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {deleteUser} from '../DbHelper/mongoDb';
+import {deleteUser} from '../../DbHelper/mongoDb';
 
 export default async function deleteUserApi(
   req: NextApiRequest,

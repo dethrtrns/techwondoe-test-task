@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {createUser} from '../DbHelper/mongoDb';
+import {createUser} from '../../DbHelper/mongoDb';
 
 export default async function addUser(
   req: NextApiRequest,

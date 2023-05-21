@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {updateUser} from '../DbHelper/mongoDb';
+import {updateUser} from '../../DbHelper/mongoDb';
 
 export default async function updateUserApi(
   req: NextApiRequest,
