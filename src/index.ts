@@ -1,3 +1,5 @@
+export {};
+
 console.log('Try npm run lint/fix!');
 
 const longString =
