@@ -25,7 +25,6 @@ import {
   IconArrowUp,
   IconArrowDown,
   IconCloudDownload,
-  IconAd,
   IconUserPlus,
 } from '@tabler/icons-react';
 import Joi from 'joi';
@@ -185,6 +184,23 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     }
   };
 
+  // Function to handle the download action
+  const handleDownloadCSV = () => {
+    // Convert data to CSV format
+    const csvData = data.map(user => Object.values(user).join(',')).join('\n');
+
+    // Create a blob with the CSV data
+    const blob = new Blob([csvData], {type: 'text/csv'});
+
+    // Create a download link element
+    const downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(blob);
+    downloadLink.download = 'users.csv';
+
+    // Simulate a click on the download link
+    downloadLink.click();
+  };
+
   const formatDate = (dateString: string) => {
     const dateOptions: Intl.DateTimeFormatOptions = {
       year: 'numeric',
@@ -304,6 +320,7 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
             leftIcon={<IconCloudDownload />}
             className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
             variant="outline"
+            onClick={handleDownloadCSV}
           >
             Download CSV
           </Button>
