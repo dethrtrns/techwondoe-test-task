@@ -118,6 +118,7 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
 
       // Close modal and clear error if submit was successful
       setOpen(false);
+      form.reset();
       setError(null);
       // Get the created user from the response
       const {name, avatar, email, date, _id, role}: User =
@@ -466,7 +467,10 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
       </Pagination.Root>
       <Modal
         opened={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          form.reset();
+          setOpen(false);
+        }}
         title="Add New User"
         size="md"
       >
@@ -556,11 +560,12 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
           title={`Update user: ${
             data.find(user => user._id === userIdToUpdate)?.email
           }`} // Use email as modal title
-          size="md"
+          // size="lg"
         >
           <form
             onSubmit={e => {
               e.preventDefault();
+              form.reset;
               handleUpdateUser(userIdToUpdate, form.values);
             }}
           >
@@ -572,6 +577,7 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
               {...form.getInputProps('name')}
             />
             <Select
+              dropdownPosition="bottom"
               data={['Admin', 'Sales Leader', 'Sales Rep']}
               label="Role"
               placeholder="Select Role"
