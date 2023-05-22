@@ -30,7 +30,7 @@ import {
 import Joi from 'joi';
 
 interface User {
-  _id: number;
+  _id: string;
   name: string;
   avatar: string;
   email: string;
@@ -47,6 +47,7 @@ interface FormValues {
 
 interface UsersTableProps {
   data: User[];
+  updateData: (updatedData: User[]) => void;
 }
 
 enum SortOrder {
@@ -54,15 +55,15 @@ enum SortOrder {
   DESC = 'desc',
 }
 
-const UsersList: React.FC<UsersTableProps> = ({data}) => {
+const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 5; // Number of items to display per page
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [userIdToUpdate, setUserIdToUpdate] = React.useState<number | null>(
+  const [userIdToUpdate, setUserIdToUpdate] = React.useState<string | null>(
     null
   );
-  const [userIdToDelete, setUserIdToDelete] = React.useState<number | null>(
+  const [userIdToDelete, setUserIdToDelete] = React.useState<string | null>(
     null
   );
   const [sortKey, setSortKey] = React.useState<keyof User>('date');
@@ -113,13 +114,22 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
       // Close modal and clear error if submit was successful
       setOpen(false);
       setError(null);
+      // Get the created user from the response
+      const {name, avatar, email, date, _id, role}: User =
+        await response.json();
+
+      // console.log({name, avatar, email, date, _id, role});
+
+      // Update the data prop
+      updateData([...data, {name, avatar, email, date, _id, role}]);
     } catch (err) {
       setError(err.message);
     }
   };
+  // console.log(data);
 
   // Update and Delete handlers
-  const handleDeleteUser = async (_id: number) => {
+  const handleDeleteUser = async (_id: string) => {
     try {
       const response = await fetch(`api/delete?id=${_id}`, {
         method: 'DELETE',
@@ -133,6 +143,10 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
       setUserIdToDelete(null);
       setError(null);
 
+      // Remove the deleted user from the data prop
+      const updatedData = data.filter(user => user._id !== _id);
+      updateData(updatedData);
+
       // Notify successful deletion
       notifications.show({
         title: 'Success!',
@@ -144,7 +158,7 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     }
   };
 
-  const handleUpdateUser = async (_id: number, values: Partial<User>) => {
+  const handleUpdateUser = async (_id: string, values: Partial<User>) => {
     try {
       const userToUpdate = data.find(user => user._id === _id);
       if (!userToUpdate) {
@@ -172,6 +186,15 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
       // Close modal and clear error if update was successful
       setUserIdToUpdate(null);
       setError(null);
+
+      // Find the updated user in the data prop and update it
+      const updatedData = data.map(user => {
+        if (user._id === _id) {
+          return {...user, ...values};
+        }
+        return user;
+      });
+      updateData(updatedData);
 
       // Notify successful update
       notifications.show({

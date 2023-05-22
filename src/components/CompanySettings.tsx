@@ -10,7 +10,7 @@ import React, {useEffect, useState} from 'react';
 import UsersList from './UsersList';
 
 interface User {
-  _id: number;
+  _id: string;
   name: string;
   avatar: string;
   email: string;
@@ -22,7 +22,7 @@ const CompanySettings = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  console.log(usersData);
+  // console.log(usersData);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +42,11 @@ const CompanySettings = () => {
 
     fetchData();
   }, []);
+
+  // function to update the users data from UsersList on add, edit or delete.
+  const updateUserData = (updatedData: User[]) => {
+    setUsersData(updatedData);
+  };
 
   return (
     <Container
@@ -72,7 +77,7 @@ const CompanySettings = () => {
             ) : error ? (
               <Text color="red">{error}</Text>
             ) : (
-              <UsersList data={usersData} />
+              <UsersList data={usersData} updateData={updateUserData} />
             )}
           </Container>
         </Tabs.Panel>
