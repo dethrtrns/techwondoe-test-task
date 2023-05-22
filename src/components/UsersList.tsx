@@ -457,9 +457,7 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
         onChange={setCurrentPage}
       >
         <Group p="md" position="apart" spacing={7} mt="xl">
-          <Pagination.First c={'violet'} icon={IconArrowBarToLeft}>
-            {'First'}
-          </Pagination.First>
+          <Pagination.First c={'violet'} icon={IconArrowBarToLeft} />
           <Pagination.Previous c={'indigo'} icon={IconArrowLeft} />
           <Pagination.Items dotsIcon={IconGripHorizontal} />
           <Pagination.Next c={'indigo'} icon={IconArrowRight} />
