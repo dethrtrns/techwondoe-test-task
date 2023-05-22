@@ -49,14 +49,11 @@ const CompanySettings = () => {
   };
 
   return (
-    <Container
-      p="lg"
-      // bg="red"
-    >
+    <Container p="lg">
       <Title order={1}>Company Settings</Title>
-      <Tabs mt={25} color="gray" variant="pills" defaultValue="users">
+      <Tabs mt={25} color="gray" variant="outline" defaultValue="users">
         <Tabs.List>
-          <Tabs.Tab value="general">General</Tabs.Tab>
+          <Tabs.Tab value="general-xl">General</Tabs.Tab>
           <Tabs.Tab value="users">Users</Tabs.Tab>
           <Tabs.Tab value="plan">Plan</Tabs.Tab>
           <Tabs.Tab value="billing">Billing</Tabs.Tab>
@@ -67,8 +64,8 @@ const CompanySettings = () => {
           general tab content
         </Tabs.Panel>
 
-        <Tabs.Panel value="users" pt="xs">
-          <Container fluid>
+        <Tabs.Panel className="shadow-xl rounded-t-none" value="users" pt="xs">
+          <Container p={0} fluid>
             {loading ? (
               <LoadingOverlay
                 loader={<Loader size="xl" variant="dots" />}

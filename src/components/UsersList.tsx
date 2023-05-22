@@ -327,7 +327,11 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
   };
 
   return (
-    <ScrollArea p="xl" className="rounded shadow-outline shadow-xl" pt={30}>
+    <ScrollArea
+      px="lg"
+      className="shadow-outline rounded-3xl rounded-t-none shadow-xl"
+      pt="xs"
+    >
       <Flex justify="space-between">
         <Group className="flex flex-col justify-between items-start">
           <Group>
