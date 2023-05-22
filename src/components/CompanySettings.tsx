@@ -1,4 +1,11 @@
-import {Container, Tabs, Text, Title} from '@mantine/core';
+import {
+  Container,
+  Loader,
+  LoadingOverlay,
+  Tabs,
+  Text,
+  Title,
+} from '@mantine/core';
 import React, {useEffect, useState} from 'react';
 import UsersList from './UsersList';
 
@@ -58,7 +65,10 @@ const CompanySettings = () => {
         <Tabs.Panel value="users" pt="xs">
           <Container fluid>
             {loading ? (
-              <Text>Loading...</Text>
+              <LoadingOverlay
+                loader={<Loader size="xl" variant="dots" />}
+                visible={loading}
+              ></LoadingOverlay>
             ) : error ? (
               <Text color="red">{error}</Text>
             ) : (
