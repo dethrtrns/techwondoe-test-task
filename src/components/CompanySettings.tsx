@@ -78,13 +78,13 @@ const CompanySettings = () => {
         </Tabs.Panel>
 
         <Tabs.Panel value="plan" pt="xs">
-          Settings tab content
+          Plan Settings tab content
         </Tabs.Panel>
         <Tabs.Panel value="billing" pt="xs">
-          Settings tab content
+          Billing Settings tab content
         </Tabs.Panel>
         <Tabs.Panel value="integrations" pt="xs">
-          Settings tab content
+          Integration Settings tab content
         </Tabs.Panel>
       </Tabs>
     </Container>
