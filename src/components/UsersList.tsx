@@ -170,6 +170,32 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+    const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+
+    return (
+      <div>
+        <div>{formattedDate}</div>
+        <div style={{fontSize: 'smaller', opacity: 0.7}}>
+          {formattedTime.replace(' ', '')}
+        </div>
+      </div>
+    );
+  };
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentPageData = data.slice(startIndex, endIndex);
@@ -207,7 +233,7 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
           {item.role}
         </Text>
       </td>
-      <td>{Math.floor(Math.random() * 6 + 5)} days ago</td>
+      <td>{formatDate(item.date.toString())}</td>
       <td>
         <Flex>
           <ActionIcon onClick={() => setUserIdToDelete(item._id)}>
