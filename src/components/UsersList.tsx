@@ -26,6 +26,11 @@ import {
   IconArrowDown,
   IconCloudDownload,
   IconUserPlus,
+  IconArrowRight,
+  IconArrowLeft,
+  IconArrowBarToLeft,
+  IconArrowBarToRight,
+  IconGripHorizontal,
 } from '@tabler/icons-react';
 import Joi from 'joi';
 
@@ -432,13 +437,35 @@ const UsersList: React.FC<UsersTableProps> = ({data, updateData}) => {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
-      <Pagination
+      {/* <Pagination
         p="md"
         position="apart"
+        withEdges
+        nextIcon={IconArrowRight}
+        previousIcon={IconArrowLeft}
+        firstIcon={IconArrowBarToLeft}
+        lastIcon={IconArrowBarToRight}
+        dotsIcon={IconGripHorizontal}
         total={Math.ceil(data.length / itemsPerPage)}
         value={currentPage}
         onChange={setCurrentPage}
-      />
+      /> */}
+      <Pagination.Root
+        size={'md'}
+        total={Math.ceil(data.length / itemsPerPage)}
+        value={currentPage}
+        onChange={setCurrentPage}
+      >
+        <Group p="md" position="apart" spacing={7} mt="xl">
+          <Pagination.First c={'violet'} icon={IconArrowBarToLeft}>
+            {'First'}
+          </Pagination.First>
+          <Pagination.Previous c={'indigo'} icon={IconArrowLeft} />
+          <Pagination.Items dotsIcon={IconGripHorizontal} />
+          <Pagination.Next c={'indigo'} icon={IconArrowRight} />
+          <Pagination.Last c={'violet'} icon={IconArrowBarToRight} />
+        </Group>
+      </Pagination.Root>
       <Modal
         opened={open}
         onClose={() => setOpen(false)}
