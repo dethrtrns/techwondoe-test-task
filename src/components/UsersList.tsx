@@ -24,6 +24,9 @@ import {
   IconTrash,
   IconArrowUp,
   IconArrowDown,
+  IconCloudDownload,
+  IconAd,
+  IconUserPlus,
 } from '@tabler/icons-react';
 import Joi from 'joi';
 
@@ -297,11 +300,19 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
           </Text>
         </Group>
         <Flex>
-          <Button variant="outline">Download CSV</Button>
           <Button
+            leftIcon={<IconCloudDownload />}
+            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            variant="outline"
+          >
+            Download CSV
+          </Button>
+          <Button
+            leftIcon={<IconUserPlus />}
+            className="bg-blue-500 hover:bg-blue-300 text-white font-semibold border border-gray-400 rounded shadow"
             onClick={() => setOpen(true)}
             ml={9}
-            variant="outline"
+            variant="filled"
             color="blue"
           >
             Add user
