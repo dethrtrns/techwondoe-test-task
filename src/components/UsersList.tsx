@@ -15,12 +15,17 @@ import {
   TextInput,
   Select,
   Notification,
+  UnstyledButton,
 } from '@mantine/core';
 import {useForm, joiResolver} from '@mantine/form';
 import {notifications} from '@mantine/notifications';
+import {
+  IconPencil,
+  IconTrash,
+  IconArrowUp,
+  IconArrowDown,
+} from '@tabler/icons-react';
 import Joi from 'joi';
-
-import {IconPencil, IconTrash} from '@tabler/icons-react';
 
 interface User {
   _id: number;
@@ -42,6 +47,11 @@ interface UsersTableProps {
   data: User[];
 }
 
+enum SortOrder {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
 const UsersList: React.FC<UsersTableProps> = ({data}) => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 5; // Number of items to display per page
@@ -53,6 +63,8 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
   const [userIdToDelete, setUserIdToDelete] = React.useState<number | null>(
     null
   );
+  const [sortKey, setSortKey] = React.useState<keyof User>('date');
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>(SortOrder.DESC);
 
   const defaultAvatarUrl = (name: string) =>
     `https://robohash.org/${name}.png?size=200x200`;
@@ -189,19 +201,25 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     return (
       <div>
         <div>{formattedDate}</div>
-        <div style={{fontSize: 'smaller', opacity: 0.7}}>
-          {formattedTime.replace(' ', '')}
-        </div>
+        <div style={{fontSize: 'smaller', opacity: 0.7}}>{formattedTime}</div>
       </div>
     );
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentPageData = data.slice(startIndex, endIndex);
+  const sortedData = React.useMemo(() => {
+    const sorted = [...data].sort((a, b) => {
+      const aValue = a[sortKey];
+      const bValue = b[sortKey];
+      if (aValue < bValue) return sortOrder === SortOrder.ASC ? -1 : 1;
+      if (aValue > bValue) return sortOrder === SortOrder.ASC ? 1 : -1;
+      return 0;
+    });
+    return sorted.slice(startIndex, endIndex);
+  }, [data, sortKey, sortOrder, startIndex, endIndex]);
 
-  // console.log(currentPageData);
-  const rows = currentPageData.map(item => (
+  const rows = sortedData.map(item => (
     <tr key={item.name}>
       <td>
         <Group spacing="sm">
@@ -255,9 +273,20 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
     </tr>
   ));
 
+  const handleSort = (key: keyof User) => {
+    if (sortKey === key) {
+      setSortOrder(prevSortOrder =>
+        prevSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC
+      );
+    } else {
+      setSortKey(key);
+      setSortOrder(SortOrder.DESC);
+    }
+  };
+
   return (
-    <ScrollArea p={'xl'} className="rounded shadow-xl" pt={30}>
-      <Flex justify={'space-between'}>
+    <ScrollArea p="xl" className="rounded shadow-xl" pt={30}>
+      <Flex justify="space-between">
         <Group className="flex flex-col justify-between items-start">
           <Group>
             <Title order={4}>Users</Title>
@@ -282,10 +311,68 @@ const UsersList: React.FC<UsersTableProps> = ({data}) => {
       <Table miw={800} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Role</th>
-            <th>Last Login</th>
+            <th>
+              <UnstyledButton
+                // display={'flex'}
+                className="flex"
+                w={'100%'}
+                onClick={() => handleSort('name')}
+              >
+                Name
+                <span className="ml-2 mt-0.5">
+                  {sortOrder === SortOrder.DESC ? (
+                    <IconArrowDown size="1rem" />
+                  ) : (
+                    <IconArrowUp size="1rem" />
+                  )}
+                </span>
+              </UnstyledButton>
+            </th>
+            <th>
+              <UnstyledButton display={'flex'} w={'100%'}>
+                Status
+                <span className="ml-2 mt-0.5">
+                  {sortOrder === SortOrder.DESC ? (
+                    <IconArrowDown size="1rem" />
+                  ) : (
+                    <IconArrowUp size="1rem" />
+                  )}
+                </span>
+              </UnstyledButton>
+            </th>
+            <th>
+              <UnstyledButton
+                display={'flex'}
+                w={'100%'}
+                onClick={() => handleSort('role')}
+              >
+                Role
+                <span className="ml-2 mt-0.5">
+                  {sortOrder === SortOrder.DESC ? (
+                    <IconArrowDown size="1rem" />
+                  ) : (
+                    <IconArrowUp size="1rem" />
+                  )}
+                </span>
+              </UnstyledButton>
+            </th>
+            <th>
+              <UnstyledButton
+                display={'flex'}
+                w={'100%'}
+                onClick={() => handleSort('date')}
+              >
+                Last Login
+                <span className="ml-2 mt-0.5">
+                  {sortOrder === SortOrder.DESC ? (
+                    <IconArrowDown size="1rem" />
+                  ) : (
+                    <IconArrowUp size="1rem" />
+                  )}
+                </span>
+              </UnstyledButton>
+            </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
